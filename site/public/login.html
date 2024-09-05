@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./img/EmilLogo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/login.css">
+    <script src="./js/funcao.js"></script>
+
+    <title>YoRHa | Login</title>
+</head>
+
+<body>
+
+    <!--Header-->
+    <header>
+        <div class="header">
+            <div class="container">
+                <h1 class="titulo">
+                    <a href="./index.html">
+                        <img src="./img/yorhalogo.png" class="logo">
+                    </a>
+                </h1>
+                <ul class="navbar">
+                    <li>
+                        <a href="./index.html">Inicial</a>
+                    </li>
+                    <li>|</li>
+                    <li class="agora">
+                        <a href="./login.html">Login</a>
+                    </li>
+                    <li>
+                        <a href="./cadastro.html">Cadastro</a>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <!--Header-->
+    <div class="principal-login">
+        <div class="esquerda-login">
+            <img src="./img/logingif.gif" class="esquerda-login-imagem" alt="representação do login">
+        </div>
+        <div class="direita-login">
+            <div class="card-login">
+                <h1>Login</h1>
+                <div class="campo">
+                    <span class="span_titulo">Email:</span>
+                    <input type="text" id="email_input" placeholder="Email">
+                    <span class="validacao" id="span_validacao_email"></span>
+                </div>
+                <div class="campo">
+                    <span class="span_titulo">Senha:</span>
+                    <input type="password" id="senha_input" placeholder="••••••••">
+                    <span class="validacao" id="span_validacao_senha"></span>
+                </div>
+                <div class="validacao" id="div_validacao"></div>
+                <!-- <div class="container-botao"> -->
+                <button class="botao-login" onclick="entrar()">
+                    Entrar
+                </button>
+                <!-- </div> -->
+                <div id="div_aguardar" class="loading-div">
+                    <img src="./img/loadinggif.gif" id="loading-gif">
+                </div>
+                <div id="div_erros_login">
+                    <span></span>
+                </div>
+                <div id="cardErro">
+
+                </div>
+                <span class="esqueci-senha">Esqueceu sua senha?</span>
+            </div>
+        </div>
+    </div>
+
+    <!--Footer-->
+    <div class="footer">
+        <div class="container">
+            <h4 class="textofooter">Glory to Mankind</h4> <br>
+        </div>
+    </div>
+    <!--Footer-->
+</body>
+
+</html>
+
+<script>
+
+
+    function entrar() {
+
+        var emailVar = email_input.value;
+        var senhaVar = senha_input.value;
+
+        if (emailVar == "" || senhaVar == "") {
+            cardErro.style.display = "block"
+            /*  mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)"; */
+            finalizarAguardar();
+            return false;
+        }
+        else {
+            setInterval(sumirMensagem, 5000)
+        }
+
+        console.log("FORM LOGIN: ", emailVar);
+        console.log("FORM SENHA: ", senhaVar);
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+
+                    sessionStorage.EMAIL_USUARIO = json.email;
+                    sessionStorage.NOME_USUARIO = json.nome_usuario;
+                    sessionStorage.ID_USUARIO = json.userid;
+
+                    setTimeout(function () {
+                        window.location = "./tela_mensagem.html";
+                    }, 2000); // apenas para exibir o loading
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+
+    function sumirMensagem() {
+        cardErro.style.display = "none"
+    }
+
+</script>

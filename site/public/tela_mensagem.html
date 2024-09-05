@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/tela_mensagem.css">
+    <link rel="shortcut icon" href="./img/EmilLogo.png" type="image/x-icon">
+
+    <title>YoRHa | Perfil</title>
+</head>
+
+<body onload="atualizarFeed()">
+    <!--Header-->
+    <header>
+        <div class="header">
+            <div class="container">
+                <h1 class="titulo">
+                    <a href="./index.html">
+                        <img src="./img/yorhalogo.png" class="logo">
+                    </a>
+                </h1>
+                <ul class="navbar">
+                    <li>
+                        <a href="./index.html">Inicial</a>
+                    </li>
+                    <li>|</li>
+                    <li>
+                        <a href="./login.html">Login</a>
+                    </li>
+                    <li>
+                        <a href="./cadastro.html">Cadastro</a>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <!--Header-->
+
+    <!--Conteúdo-->
+    <main>
+        <div class="provocacao">
+            <p>
+                Os seres humanos, segundo alguns, são pessoas gananciosas que estão preocupadas apenas consigo mesmo.
+                <br>
+                Você acha que é melhor do que essa definição ou você é exatamente assim? <br>
+                Prove o contrário
+            </p>
+        </div>
+        <h1 class="message">
+            LEAVE A MESSAGE
+        </h1>
+        <div class="div-form">
+            <form id="form_postagem" method="post" onsubmit="return publicar()">
+                <label>
+                    Título:
+                    <br>
+                    <input name="titulo" id="titulo" maxlength="100" type="text">
+                </label>
+                <br>
+                <label>
+                    Descrição:
+                    <br>
+                    <textarea name="descricao" id="textarea_descricao" maxlength="250" rows="5"></textarea>
+                </label>
+                <br>
+                <button>Enviar</button>
+            </form>
+        </div>
+        <!--Mensagens-->
+        <div class="mensagens2">
+            <div id="feed_container" class="feed-container">
+            </div>
+        </div>
+        <!--Mensagens-->
+
+    </main>
+    <!--Conteúdo-->
+
+<div class="sair">
+    <button onclick="sair()"class="botao_sair">Sair</button>
+</div>
+
+
+    <!--Footer-->
+    <div class="footer">
+        <div class="container">
+            <h4 class="textofooter">Glory to Mankind</h4> <br>
+        </div>
+    </div>
+    <!--Footer-->
+</body>
+
+</html>
+
+<script>
+
+
+    function limparFormulario() {
+        document.getElementById("form_postagem").reset();
+    }
+
+    function publicar() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        var corpo = {
+            titulo: form_postagem.titulo.value,
+            descricao: form_postagem.descricao.value
+        }
+
+        fetch(`/avisos/publicar/${idUsuario}`, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(corpo)
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!");
+                window.location = "/tela_mensagem.html";
+                limparFormulario();
+                finalizarAguardar();
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+            finalizarAguardar();
+        });
+
+        return false;
+
+    }
+
+
+    function atualizarFeed() {
+        //aguardar();
+        fetch("/avisos/listar").then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    var feed = document.getElementById("feed_container");
+                    var mensagem = document.createElement("span");
+                    mensagem.innerHTML = "Nenhum resultado encontrado."
+                    feed.appendChild(mensagem);
+                    throw "Nenhum resultado encontrado!!";
+                }
+
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+                    var feed = document.getElementById("feed_container");
+                    feed.innerHTML = "";
+                    for (let i = 0; i < resposta.length; i++) {
+
+                        // criando e manipulando elementos do HTML via JavaScript
+                        var divPublicacao = document.createElement("div");
+                        var spanTitulo = document.createElement("span");
+                        var divDescricao = document.createElement("div");
+                        var btnEditar = document.createElement("button");
+                        var divButtons = document.createElement("div");
+
+
+                        spanTitulo.innerHTML = "Título: <b> <br>" + resposta[i].Titulo_mensagem + "</b>";
+                        divDescricao.innerHTML = "Mensagem: <b><br>" + resposta[i].Mensagem + "</b>";
+                        btnEditar.innerHTML = "Favoritar";
+
+
+
+
+                        divPublicacao.className = "publicacao";
+                        spanTitulo.className = "publicacao-titulo";
+                        divDescricao.className = "publicacao-descricao";
+                        divButtons.className = "div-buttons"
+                        btnEditar.className = "publicacao-btn-editar"
+                        btnEditar.setAttribute("onclick", `favoritar(${resposta[i].idMensagem})`);
+
+
+                        divButtons.appendChild(btnEditar);
+                        divPublicacao.appendChild(divButtons);
+
+                        divPublicacao.appendChild(spanTitulo);
+                        divPublicacao.appendChild(divDescricao);
+                        feed.appendChild(divPublicacao);
+                    }
+
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
+        });
+    }
+
+    function favoritar(idMensagem) {
+
+        var idUsuario = sessionStorage.ID_USUARIO
+
+        fetch(`/avisos/favoritar/${idUsuario}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+                idMensagem
+            })
+        })
+    }
+
+    function testar() {
+        aguardar();
+
+        var formulario = new URLSearchParams(new FormData(document.getElementById("form_postagem")));
+
+        var divResultado = document.getElementById("div_feed");
+
+        divResultado.appendChild(document.createTextNode(formulario.get("descricao")));
+        divResultado.innerHTML = formulario.get("descricao");
+
+        finalizarAguardar();
+
+        return false;
+    }
+
+    function sair() {
+        sessionStorage.clear;
+        window.location = "/login.html"
+    }
+</script>

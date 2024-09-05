@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/cadastro.css">
+    <link rel="shortcut icon" href="./img/EmilLogo.png" type="image/x-icon">
+    <script src="./js/funcao.js"></script>
+    <title>YoRHa | Registro</title>
+</head>
+
+<body>
+    <!--Header-->
+    <header>
+        <div class="header">
+            <div class="container">
+                <h1 class="titulo">
+                    <a href="./index.html">
+                        <img src="./img/yorhalogo.png" class="logo">
+                    </a>
+                </h1>
+                <ul class="navbar">
+                    <li>
+                        <a href="./index.html">Inicial</a>
+                    </li>
+                    <li>|</li>
+                    <li>
+                        <a href="./login.html">Login</a>
+                    </li>
+                    <li class="agora">
+                        <a href="./cadastro.html">Cadastro</a>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <!--Header-->
+    <div class="banner ">
+        <div class="alerta_erro">
+            <div class="card_erro" id="cardErro">
+                <span id="mensagem_erro"></span>
+            </div>
+        </div>
+        <div class="principal-cadastro">
+            <div class="esquerda-cadastro">
+                <img src="./img/cadastrogif.gif" class="esquerda-cadastro-imagem" alt="representação do cadastro">
+            </div>
+            <div class="direita-cadastro">
+                <div class="card-cadastro">
+                    <h1>Registro</h1>
+                    <div class="campo">
+                        <span class="span_titulo">Apelido:</span>
+                        <input type="text" id="input_nome" placeholder="Apelido">
+                        <span class="validacao" id="span_validacao_nome"></span>
+                    </div>
+                    <div class="campo">
+                        <span class="span_titulo">Email:</span>
+                        <input type="text" id="input_email" placeholder="usuario@email.com">
+                        <span class="validacao" id="span_validacao_email"></span>
+                    </div>
+                    <div class="organizar-senhas">
+                        <div class="senha">
+                            <div class="campo">
+                                <span class="span_titulo">Senha:</span>
+                                <input type="password" id="input_senha" placeholder="••••••">
+                                <span class="validacao" id="span_validacao_senha"></span>
+                            </div>
+                        </div>
+                        <div class="senha">
+                            <div class="campo">
+                                <span class="span_titulo">Confirme a senha:</span>
+                                <input type="password" id="input_confirmacao_senha" placeholder="••••••">
+                                <span class="validacao" id="span_validacao_confirme_senha"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="botao-cadastro" onclick="cadastro()">Registrar</button>
+                    <div id="div_aguardar" class="loading-div">
+                        <img src="./img/loadinggif.gif" id="loading-gif">
+                    </div>
+                </div>
+                <div id="div_erros_login">
+
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <!--Footer-->
+            <div class="footer">
+                <div class="container">
+                    <h4 class="textofooter">Glory to Mankind</h4> <br>
+                </div>
+            </div>
+            <!--Footer-->
+        </footer>
+
+</body>
+
+</html>
+
+<script>
+    function cadastrar() {
+        aguardar();
+
+        //Recupere o valor da nova input pelo nome do id
+        // Agora vá para o método fetch logo abaixo
+        var nomeVar = input_nome.value;
+        var emailVar = input_email.value;
+        var senhaVar = input_senha.value;
+        var confirmacaoSenhaVar = input_confirmacao_senha.value;
+
+        if (nomeVar == "" || emailVar == "" || senhaVar == "" || confirmacaoSenhaVar == "") {
+            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+
+            finalizarAguardar();
+            return false;
+        }
+        else {
+            setInterval(sumirMensagem, 5000)
+        }
+
+        // Enviando o valor da nova input
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+                nomeServer: nomeVar,
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                cardErro.style.display = "block";
+
+                /* mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login..."; */
+
+                setTimeout(() => {
+                    window.location = "./login.html";
+                }, 2000)
+
+                limparFormulario();
+                finalizarAguardar();
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+            finalizarAguardar();
+        });
+
+        return false;
+    }
+
+    function sumirMensagem() {
+        cardErro.style.display = "none"
+    }
+
+</script>
+
+<script>
+    function cadastro() {
+        cardErro.style.display = "block"
+        var email = input_email.value;
+        var senha = input_senha.value;
+        var nome = input_nome.value;
+        var senha = input_senha.value;
+        var confirme_senha = input_confirmacao_senha.value;
+
+        if (nome.length < 3) {
+            span_validacao_nome.innerHTML = `Nome invalido`
+        } else {
+            span_validacao_nome.innerHTML = ''
+        }
+
+        if (email.indexOf("@") > -1) {
+            span_validacao_email.innerHTML = ''
+        } else {
+            span_validacao_email.innerHTML = `Email invalido`
+        }
+
+        if (senha.length < 5) {
+            span_validacao_senha.innerHTML = `Senha fraca`
+        } else {
+            span_validacao_senha.innerHTML = ''
+        }
+
+        if (confirme_senha != senha) {
+            span_validacao_confirme_senha.innerHTML = `Senha incorreta`
+        } else {
+            span_validacao_confirme_senha.innerHTML = ''
+
+        }
+        cadastrar()
+    }
+
+</script>

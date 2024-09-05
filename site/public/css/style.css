@@ -1,0 +1,216 @@
+@font-face {
+    font-family: Minimo;
+    src: url('/p/fonts/Minimo.otf');
+    src: url('/p/fonts/Minimo.otf') format('☺'),
+         url('/p/fonts/Minimo.otf') format('woff'),
+         url('/p/fonts/Minimo.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+  
+
+body {
+    font-family: Minimo;
+    margin: 0;
+    padding: 0;
+    background-color: #E1DCDC;
+}
+
+/* -----------------Header------------------- */
+.logo  {
+    width: 20vw;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    display: flex;
+}
+
+.header {
+    border-bottom: 3px solid black;
+}
+
+.header .container {
+    justify-content: space-between;
+}
+
+.header a {
+    text-decoration: none;
+    color: black;
+}
+
+.agora {
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.navbar {
+    width: 475px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    color: black;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.titulo {
+    color: black;
+    width: fit-content;
+    font-weight: 500;
+    font-size: 40px;
+}
+
+/* -----------------Header------------------- */
+
+/* -----------------Carrossel------------------- */
+.lista_carrossel {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.img-js{
+    display: none;
+}
+.img-js img {
+    width: 100%;
+}
+
+.ativo{
+    display: block !important;
+    animation-name: opacity;
+    animation-duration: 1s;
+
+}
+  
+@keyframes opacity {
+    from {opacity: 0%;}
+    to {opacity: 100%;}
+}
+
+.ingame {
+    width: 100%;
+}
+/* -----------------Carrossel------------------- */
+
+/* -----------------Conteúdo------------------- */
+.conteudo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.conteudo .info {
+    width: 80%;
+}
+
+.conteudo .info p {
+    margin: 0, auto;
+    text-align: center;
+    font-size: 25px;
+}
+
+.conteudo .info h2 {
+    margin: 0, auto;
+    text-align: center;
+    font-size: 30px;
+}
+
+/* -----------------Conteúdo------------------- */
+
+
+/* -----------------Mensagens------------------- */
+.box {
+    overflow: hidden;
+    justify-content: center;
+    padding: 15px;
+    background-color: black;
+    text-align: center;
+    align-items: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    border: solid #E1DCDC;
+}
+.box .divisoria {
+    height: 3px;
+    width: 150px;
+    background-color: white;
+}
+
+.box .titulo {
+    color: white;
+    border-bottom: 5px white;
+    justify-items: center;
+    text-align: center;
+    
+}
+.bg {
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.mensagens {
+    background-color: #E1DCDC;
+    display: flex;
+    justify-content: center;
+}
+
+.mensagens .container {
+    justify-content: center;
+    
+}
+.mensagens .container .boxes {
+    display: flex;
+}
+
+.call {
+    list-style: none;
+    color: black;
+    font-size: 30px;
+    cursor: pointer;
+    justify-content: center;
+    display: flex;
+    text-decoration: none;
+}
+
+.call a {
+    text-decoration: none;
+    color: black;
+}
+
+/* -----------------Mensagens------------------- */
+
+/* -----------------Footer------------------- */
+
+.footer {
+    height: 150px;
+    color: #191818;
+    display: flex;
+    font-size: large;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.footer .container {
+    justify-content: center;
+    text-align: center;
+}
+
+.textofooter {
+    font-size: larger;
+}
+
+
+/* -----------------Footer------------------- */
+
+
+.carrosel {
+    width: 100%;
+}

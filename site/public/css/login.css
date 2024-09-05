@@ -1,0 +1,175 @@
+
+
+.principal-login {
+    width: 100%;
+    height: 50vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+.esquerda-login {
+    width: 50vw;
+    height: 60vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.esquerda-login>h1 {
+    color: #054A29;
+    margin-top: 15vh;
+}
+
+.esquerda-login-imagem {
+    width: 60vw;
+}
+
+.direita-login {
+    width: 50vw;
+    height: 60vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-login {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px 30px;
+    background-color: rgb(119, 122, 121);
+    border-radius: 20px;
+    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.253)
+}
+
+.card-login>h1 {
+    color: #EFF0E8;
+    font-weight: 800;
+    margin: 0;
+}
+
+.validacao {
+    width: 100%;
+    height: 5px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    font-size: small;
+    text-decoration: underline;
+}
+
+.campo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.span_titulo {
+    font-weight: 800;
+}
+
+.campo>input {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    background: rgb(173, 173, 173);
+    color: #ffffff;
+    font-size: 12pt;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.campo>span {
+    color: #EFF0E8;
+    margin-bottom: 10px;
+}
+
+.campo>input::placeholder {
+    color: #eff0e871;
+    font-size: thin;
+}
+
+.manter-conectado {
+    align-items: center;
+}
+
+.manter-conectado>span {
+    color: #EFF0E8;
+}
+
+.container-botao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.botao-login {
+    width: 100%;
+    padding: 16px 0px;
+    margin: 25px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #000000;
+    background-color: #adadad;
+    cursor: pointer;
+}
+
+.esqueci-senha {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #ffffff;
+}
+.loading-div {
+    width: 50px;
+    margin: auto;
+    display: none;
+  }
+  
+  .loading-div img {
+    height: 50px;
+    width: 50px;
+  }
+
+    /* -----------------Footer------------------- */
+
+.footer {
+    height: 150px;
+    color: #191818;
+    display: flex;
+    font-size: large;
+}
+
+.footer .container {
+    justify-content: center;
+    text-align: center;
+}
+
+.textofooter {
+    font-size: larger;
+
+}
+
+/* -----------------Footer------------------- */
